@@ -1,5 +1,6 @@
 package com.bengu.springblog;
 
+import com.bengu.springblog.services.LastFmService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

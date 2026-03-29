@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Music</title>
+    <ul>
+        <li th:each="artist : ${artists}">
+            <span th:text="${artist.name}"></span>
+            <span th:text="${artist.playcount}"></span>
+        </li>
+    </ul>
 </head>
 <body>
 
