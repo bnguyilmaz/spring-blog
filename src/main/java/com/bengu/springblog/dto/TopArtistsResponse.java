@@ -6,7 +6,7 @@ import lombok.Setter;
 
 
 public class TopArtistsResponse {
-    TopArtistsData topartists;
+    private TopArtistsData topartists;
 
     public TopArtistsData getTopartists() {
         return topartists;

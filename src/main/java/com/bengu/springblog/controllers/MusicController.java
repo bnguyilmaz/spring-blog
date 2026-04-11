@@ -1,5 +1,6 @@
 package com.bengu.springblog.controllers;
 
+import com.bengu.springblog.dto.AlbumResponse;
 import com.bengu.springblog.dto.ArtistResponse;
 import com.bengu.springblog.services.LastFmService;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ public class MusicController {
     public String music(Model model){
         List<ArtistResponse> artists = lastFmService.getTopArtists();
         model.addAttribute("artists",artists);
+        List<AlbumResponse> albums = lastFmService.getTopAlbums();
+        model.addAttribute("albums",albums);
         return "music";
     }
 

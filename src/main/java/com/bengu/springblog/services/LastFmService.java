@@ -1,8 +1,6 @@
 package com.bengu.springblog.services;
 
-import com.bengu.springblog.dto.ArtistResponse;
-import com.bengu.springblog.dto.TopArtistsData;
-import com.bengu.springblog.dto.TopArtistsResponse;
+import com.bengu.springblog.dto.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +20,7 @@ public class LastFmService {
 
     @Value("${lastfm.user}")
     private String user;
+    private String displayImageUrl;
 
     RestTemplate restTemplate = new RestTemplate();
     public List<ArtistResponse> getTopArtists(){
@@ -36,12 +35,53 @@ public class LastFmService {
         System.out.println("USER: " + user);
         System.out.println("FINAL URL: " + url);
         TopArtistsResponse response = restTemplate.getForObject(url, TopArtistsResponse.class);
-        List<ArtistResponse> artists = response.getTopartists().getArtist();
 
+        System.out.println(response.getTopartists()
+                .getArtist()
+                .stream()
+                .filter(a -> a != null)
+                .toList());
         return response.getTopartists()
                 .getArtist()
                 .stream()
                 .filter(a -> a != null)
                 .toList();
+    }
+    public List<AlbumResponse> getTopAlbums(){
+        //returns a list includes album objects
+         String url = baseUrl
+                + "?method=user.gettopalbums"
+                + "&user=" + user
+                + "&api_key=" + apiKey
+                + "&format=json";
+        System.out.println("BASE URL: " + baseUrl);
+        System.out.println("API KEY: " + apiKey);
+        System.out.println("USER: " + user);
+        System.out.println("FINAL URL: " + url);
+
+
+        TopAlbumsResponse response = restTemplate.getForObject(url,TopAlbumsResponse.class);
+
+        System.out.println(response.getTopalbums());
+        return response.getTopalbums()
+                .getAlbum()
+                .stream()
+                .filter(album -> album != null)
+                .peek(album -> album.setDisplayImageUrl(findBestImage(album.getImage())))
+                .toList();
+    }
+
+    private String findBestImage(List<ImageResponse> images) {
+        // returns best image's url
+        if (images == null) {
+            return null;
+        }
+
+        return images.stream()
+                .filter(img -> "large".equals(img.getSize()))
+                .map(ImageResponse::getImageUrl)
+                .filter(url -> url != null && !url.isBlank())
+                .findFirst()
+                .orElse(null);
     }
 }

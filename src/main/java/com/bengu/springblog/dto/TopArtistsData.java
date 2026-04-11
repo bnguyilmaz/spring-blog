@@ -5,7 +5,7 @@ import lombok.Setter;
 import java.util.List;
 
 public class TopArtistsData {
-    List<ArtistResponse> artist;
+    private List<ArtistResponse> artist;
 
     public List<ArtistResponse> getArtist() {
         return artist;
@@ -14,4 +14,6 @@ public class TopArtistsData {
     public void setArtist(List<ArtistResponse> artist) {
         this.artist = artist;
     }
+
 }
+

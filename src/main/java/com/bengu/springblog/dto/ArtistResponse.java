@@ -6,7 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ArtistResponse {
-    String name;
+    private String name;
+    private String playcount;
+    private String url;
+
 
     public String getName() {
         return name;
@@ -32,6 +35,5 @@ public class ArtistResponse {
         this.url = url;
     }
 
-    String playcount;
-    String url;
+
 }
