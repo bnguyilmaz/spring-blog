@@ -67,6 +67,22 @@
         </div>
     </div>
 </div>
+<!-- 🔹 RECENT TRACK -->
+<div class="section">
+    <h2>Recent Track</h2>
+
+    <div class="tracks">
+        <div class="track-card" th:each="track : ${tracks}">
+            <img th:src="${track.displayImageUrl}"
+                 onerror="this.src='/images/default-track.jpg'">
+
+            <p th:text="${track.name}"></p>
+            <p th:text="${track.artist.name}"></p>
+            <!--<p th:text="${album.playcount}"></p>
+            -->
+        </div>
+    </div>
+</div>
 
 <!-- 🔹 ARTISTS -->
 <div class="section">

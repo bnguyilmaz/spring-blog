@@ -67,9 +67,32 @@ public class LastFmService {
                 .getAlbum()
                 .stream()
                 .filter(album -> album != null)
-                .peek(album -> album.setDisplayImageUrl(findBestImage(album.getImage())))
+                .peek(album -> album.setDisplayImageUrl(findBestImage(album.getImage())))  //calles helper function
                 .toList();
     }
+    public List<TrackResponse> getRecentTracks(){
+
+        String url = baseUrl
+                + "?method=user.getrecenttracks"
+                + "&user=" + user
+                + "&api_key=" + apiKey
+                + "&format=json"
+                +"&limit=1";
+        System.out.println("BASE URL: " + baseUrl);
+        System.out.println("API KEY: " + apiKey);
+        System.out.println("USER: " + user);
+        System.out.println("FINAL URL: " + url);
+        RecentTracksResponse response = restTemplate.getForObject(url,RecentTracksResponse.class);
+
+        System.out.println(response.getRecenttracks());
+        return response.getRecenttracks()
+                .getTrack()
+                .stream()
+                .filter(track -> track != null)
+                .peek(album -> album.setDisplayImageUrl(findBestImage(album.getImage())))  //calles helper function
+                .toList();
+    }
+
 
     private String findBestImage(List<ImageResponse> images) {
         // returns best image's url
