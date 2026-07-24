@@ -29,11 +29,8 @@ public class LastFmService {
                 + "&user=" + user
                 + "&api_key=" + apiKey
                 + "&period=7day"
-                + "&format=json";
-        System.out.println("BASE URL: " + baseUrl);
-        System.out.println("API KEY: " + apiKey);
-        System.out.println("USER: " + user);
-        System.out.println("FINAL URL: " + url);
+                + "&format=json"
+                + "&limit=10";
         TopArtistsResponse response = restTemplate.getForObject(url, TopArtistsResponse.class);
 
         System.out.println(response.getTopartists()
@@ -53,12 +50,8 @@ public class LastFmService {
                 + "?method=user.gettopalbums"
                 + "&user=" + user
                 + "&api_key=" + apiKey
-                + "&format=json";
-        System.out.println("BASE URL: " + baseUrl);
-        System.out.println("API KEY: " + apiKey);
-        System.out.println("USER: " + user);
-        System.out.println("FINAL URL: " + url);
-
+                + "&format=json"
+                + "&limit=12";
 
         TopAlbumsResponse response = restTemplate.getForObject(url,TopAlbumsResponse.class);
 
@@ -77,14 +70,10 @@ public class LastFmService {
                 + "&user=" + user
                 + "&api_key=" + apiKey
                 + "&format=json"
-                +"&limit=1";
-        System.out.println("BASE URL: " + baseUrl);
-        System.out.println("API KEY: " + apiKey);
-        System.out.println("USER: " + user);
-        System.out.println("FINAL URL: " + url);
+                + "&limit=1";
         RecentTracksResponse response = restTemplate.getForObject(url,RecentTracksResponse.class);
 
-        System.out.println(response.getRecenttracks());
+        System.out.println(response.getRecenttracks().getTrack());
         return response.getRecenttracks()
                 .getTrack()
                 .stream()

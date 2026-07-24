@@ -8,6 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringBlogApplication {
 
     public static void main(String[] args) {
+        System.out.println(
+                "LASTFM_API_KEY mevcut mu? "
+                        + (System.getenv("LASTFM_API_KEY") != null)
+        );
         SpringApplication.run(SpringBlogApplication.class, args);
     }
 

@@ -26,8 +26,8 @@ public class MusicController {
         model.addAttribute("artists",artists);
         List<AlbumResponse> albums = lastFmService.getTopAlbums();
         model.addAttribute("albums",albums);
-        List<TrackResponse> tracks = lastFmService.getRecentTracks();
-        model.addAttribute("tracks",tracks);
+        List<TrackResponse> recentTrack = lastFmService.getRecentTracks();
+        model.addAttribute("recentTrack",recentTrack);
         return "music";
     }
 
