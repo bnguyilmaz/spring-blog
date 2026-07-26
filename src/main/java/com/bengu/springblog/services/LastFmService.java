@@ -28,7 +28,7 @@ public class LastFmService {
                 + "?method=user.gettopartists"
                 + "&user=" + user
                 + "&api_key=" + apiKey
-                + "&period=7day"
+                + "&period=1month"
                 + "&format=json"
                 + "&limit=10";
         TopArtistsResponse response = restTemplate.getForObject(url, TopArtistsResponse.class);
@@ -81,6 +81,7 @@ public class LastFmService {
                 .peek(album -> album.setDisplayImageUrl(findBestImage(album.getImage())))  //calles helper function
                 .toList();
     }
+
 
 
     private String findBestImage(List<ImageResponse> images) {

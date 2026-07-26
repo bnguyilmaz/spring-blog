@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,6 +30,14 @@ public class MusicController {
         List<TrackResponse> recentTrack = lastFmService.getRecentTracks();
         model.addAttribute("recentTrack",recentTrack);
         return "music";
+    }
+    @GetMapping("/artist")
+    public String showArtistDetail(
+            @RequestParam String name,
+            Model model
+    ) {
+        model.addAttribute("artistName", name);
+        return "artist-detail";
     }
 
 }

@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Music</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Music</title>
 
     <style>
         * {
@@ -24,27 +25,29 @@
         }
 
         h1 {
+            margin-bottom: 10px;
             text-align: center;
             font-size: 42px;
-            margin-bottom: 10px;
         }
 
         .subtitle {
+            margin-bottom: 45px;
             text-align: center;
             color: #b8b8b8;
-            margin-bottom: 45px;
             font-size: 15px;
         }
 
         h2 {
+            margin-bottom: 24px;
             text-align: center;
             font-size: 30px;
-            margin-bottom: 24px;
         }
 
         .section {
             margin-bottom: 60px;
         }
+
+        /* ALBUMS */
 
         .albums {
             display: grid;
@@ -53,10 +56,10 @@
         }
 
         .album-card {
-            background-color: #1b1b1b;
-            border-radius: 16px;
             padding: 14px;
             text-align: center;
+            background-color: #1b1b1b;
+            border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -67,19 +70,19 @@
         }
 
         .album-card img {
+            display: block;
             width: 100%;
+            margin-bottom: 14px;
             aspect-ratio: 1 / 1;
             object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 14px;
-            display: block;
             background-color: #2a2a2a;
+            border-radius: 12px;
         }
 
         .album-name {
+            margin-bottom: 8px;
             font-size: 20px;
             font-weight: 700;
-            margin-bottom: 8px;
             line-height: 1.3;
         }
 
@@ -87,6 +90,8 @@
             font-size: 16px;
             color: #cfcfcf;
         }
+
+        /* RECENT TRACK */
 
         .recentTrack {
             max-width: 780px;
@@ -97,19 +102,19 @@
             display: flex;
             align-items: center;
             gap: 24px;
+            padding: 22px;
             background-color: #1b1b1b;
             border-radius: 20px;
-            padding: 22px;
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
         }
 
         .track-card img {
             width: 160px;
             height: 160px;
-            object-fit: cover;
-            border-radius: 16px;
-            background-color: #2a2a2a;
             flex-shrink: 0;
+            object-fit: cover;
+            background-color: #2a2a2a;
+            border-radius: 16px;
         }
 
         .track-info {
@@ -120,13 +125,13 @@
 
         .track-badge {
             display: inline-block;
+            width: fit-content;
+            padding: 6px 10px;
+            color: #ffffff;
             background-color: #1db954;
-            color: #fff;
+            border-radius: 999px;
             font-size: 12px;
             font-weight: bold;
-            padding: 6px 10px;
-            border-radius: 999px;
-            width: fit-content;
             letter-spacing: 0.4px;
         }
 
@@ -141,6 +146,8 @@
             color: #d1d1d1;
         }
 
+        /* ARTISTS */
+
         .artists {
             max-width: 800px;
             margin: 0 auto;
@@ -148,16 +155,16 @@
         }
 
         .artists li {
-            list-style: none;
-            padding: 16px 18px;
-            margin-bottom: 12px;
-            background-color: #1b1b1b;
-            border-radius: 14px;
-            border: 1px solid #2a2a2a;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             gap: 16px;
+            margin-bottom: 12px;
+            padding: 16px 18px;
+            list-style: none;
+            background-color: #1b1b1b;
+            border: 1px solid #2a2a2a;
+            border-radius: 14px;
             transition: background-color 0.2s ease, transform 0.2s ease;
         }
 
@@ -167,18 +174,28 @@
         }
 
         .artist-name {
+            color: #ffffff;
             font-size: 18px;
             font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .artist-name:hover {
+            color: #1db954;
+            text-decoration: underline;
         }
 
         .artist-playcount {
-            font-size: 14px;
+            padding: 6px 12px;
             color: #d0d0d0;
             background-color: #2b2b2b;
-            padding: 6px 12px;
             border-radius: 999px;
+            font-size: 14px;
             white-space: nowrap;
         }
+
+        /* MOBILE */
 
         @media (max-width: 768px) {
             h1 {
@@ -215,10 +232,13 @@
 <div class="container">
 
     <h1>My Music</h1>
-    <p class="subtitle">A small corner of what I’ve been listening to lately</p>
 
-    <!-- ALBUMS -->
-    <div class="section">
+    <p class="subtitle">
+        A small corner of what I’ve been listening to lately
+    </p>
+
+    <!-- TOP ALBUMS -->
+    <section class="section">
         <h2>Top Albums</h2>
 
         <div class="albums">
@@ -227,14 +247,21 @@
                      alt="Album cover"
                      onerror="this.src='/images/default-album.jpg'">
 
-                <p class="album-name" th:text="${album.name}"></p>
-                <p class="album-artist" th:text="${album.artist.name}"></p>
+                <p class="album-name"
+                   th:text="${album.name}">
+                    Album name
+                </p>
+
+                <p class="album-artist"
+                   th:text="${album.artist.name}">
+                    Artist name
+                </p>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- RECENT TRACK -->
-    <div class="section">
+    <section class="section">
         <h2>Recent Track</h2>
 
         <div class="recentTrack">
@@ -244,25 +271,43 @@
                      onerror="this.src='/images/default-track.jpg'">
 
                 <div class="track-info">
-                    <span class="track-badge">RECENTLY PLAYED</span>
-                    <p class="track-name" th:text="${track.name}"></p>
-                    <p class="track-artist" th:text="${track.artist.name}"></p>
+                    <span class="track-badge">
+                        RECENTLY PLAYED
+                    </span>
+
+                    <p class="track-name"
+                       th:text="${track.name}">
+                        Track name
+                    </p>
+
+                    <p class="track-artist"
+                       th:text="${track.artist.name}">
+                        Artist name
+                    </p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- ARTISTS -->
-    <div class="section">
+    <!-- TOP ARTISTS -->
+    <section class="section">
         <h2>Top Artists</h2>
 
         <ul class="artists">
             <li th:each="artist : ${artists}">
-                <span class="artist-name" th:text="${artist.name}"></span>
-                <span class="artist-playcount" th:text="${artist.playcount + ' plays'}"></span>
+                <a class="artist-name"
+                   th:href="@{/music/artist(name=${artist.name})}"
+                   th:text="${artist.name}">
+                    Artist name
+                </a>
+
+                <span class="artist-playcount"
+                      th:text="${artist.playcount + ' plays'}">
+                    0 plays
+                </span>
             </li>
         </ul>
-    </div>
+    </section>
 
 </div>
 </body>
