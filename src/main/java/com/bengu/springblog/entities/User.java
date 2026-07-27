@@ -24,13 +24,25 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "lastfm_username", length = 50)
+    private String lastFmUsername;
+
     protected User() {
     }
 
-    public User(String username, String email, String passwordHash) {
+    public User(String username, String email, String passwordHash, String lastFmUsername) {
         this.username = username;
         this.email = email;
         this.passwordHash = passwordHash;
+        this.lastFmUsername = lastFmUsername;
+    }
+
+    public String getLastFmUsername() {
+        return lastFmUsername;
+    }
+
+    public void setLastFmUsername(String lastFmUsername) {
+        this.lastFmUsername = lastFmUsername;
     }
 
     public Long getId() {
