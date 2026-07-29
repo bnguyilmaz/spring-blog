@@ -1,5 +1,6 @@
 package com.bengu.springblog.services;
 
+import com.bengu.springblog.dto.CreateUserRequest;
 import com.bengu.springblog.entities.User;
 import com.bengu.springblog.exceptions.UsernameAlreadyExistsException;
 import com.bengu.springblog.repositories.UserRepository;
@@ -17,18 +18,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user) {
+    public User createUser(CreateUserRequest request) {
         Optional<User> existingUser =
-                userRepository.findByUsername(user.getUsername());
+                userRepository.findByUsername(request.getUsername());
 
         if (existingUser.isPresent()) {
             throw new UsernameAlreadyExistsException(
                     "Username is already taken: "
-                            + user.getUsername()
+                            + request.getUsername()
             );
         }
 
+        User user = new User(request.getUsername(),request.getEmail());
         return userRepository.save(user);
+
+
     }
 
     public Optional<User> getUserByUsername(String username) {
