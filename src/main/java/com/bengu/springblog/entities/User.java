@@ -28,9 +28,10 @@ public class User {
     }
 
 
-    public User(String username, String email) {
+    public User(String username, String email,String passwordHash) {
         this.username = username;
         this.email = email;
+        this.passwordHash = passwordHash;
     }
 
     public Long getId() {

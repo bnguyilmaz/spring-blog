@@ -1,6 +1,7 @@
 package com.bengu.springblog.controllers;
 
 import com.bengu.springblog.dto.CreateUserRequest;
+import com.bengu.springblog.dto.UserResponse;
 import com.bengu.springblog.entities.User;
 import com.bengu.springblog.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,10 @@ public class UserApiController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(
+    public ResponseEntity<UserResponse> createUser(
             @RequestBody CreateUserRequest request) {
 
-        User createdUser = userService.createUser(request);
-
+        UserResponse createdUser = userService.createUser(request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
