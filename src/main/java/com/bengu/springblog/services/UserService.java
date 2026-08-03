@@ -28,15 +28,13 @@ public class UserService {
 
         if (existingUser.isPresent()) {
             throw new UsernameAlreadyExistsException(
-                    "Username is already taken: "
-                            + request.getUsername()
-            );
+                    request.getUsername());
         }
 
         String passwordHash = passwordEncoder.encode(request.getPassword());
 
-        User savedUser = new User(request.getUsername(),request.getEmail(),passwordHash);
-        userRepository.save(savedUser);
+        User user = new User(request.getUsername(),request.getEmail(),passwordHash);
+        User savedUser = userRepository.save(user);
 
         return new UserResponse(
                 savedUser.getId(),
