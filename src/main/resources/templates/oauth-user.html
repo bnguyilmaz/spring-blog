@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Girişi</title>
+</head>
+<body>
+
+<h1>Google girişi başarılı</h1>
+
+<img th:if="${picture != null}"
+     th:src="${picture}"
+     alt="Profil fotoğrafı"
+     width="120">
+
+<p>
+    Ad:
+    <span th:text="${name}"></span>
+</p>
+
+<p>
+    E-posta:
+    <span th:text="${email}"></span>
+</p>
+
+<p>
+    Google kullanıcı kimliği:
+    <span th:text="${sub}"></span>
+</p>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Çıkış yap</button>
+</form>
+
+</body>
+</html>

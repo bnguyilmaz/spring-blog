@@ -13,6 +13,24 @@ public class SpringBlogApplication {
                         + (System.getenv("LASTFM_API_KEY") != null)
         );
         SpringApplication.run(SpringBlogApplication.class, args);
+        String googleClientId = System.getenv("GOOGLE_CLIENT_ID");
+
+        System.out.println(
+                "GOOGLE_CLIENT_ID mevcut mu? "
+                        + (googleClientId != null)
+        );
+
+        System.out.println(
+                "GOOGLE_CLIENT_ID biçimi doğru mu? "
+                        + (googleClientId != null
+                        && googleClientId.endsWith(".apps.googleusercontent.com"))
+        );
+        String googleClientSecret = System.getenv("GOOGLE_CLIENT_SECRET");
+
+        System.out.println(
+                "GOOGLE_CLIENT_SECRET mevcut mu? "
+                        + (googleClientSecret != null && !googleClientSecret.isBlank())
+        );
     }
 
 }
