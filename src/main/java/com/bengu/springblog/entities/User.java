@@ -14,11 +14,12 @@ public class User {
 
     @Column(nullable = false, unique = true, length = 50)
     private String username;
-
+    @Column(name = "google_sub", unique = true)
+    private String googleSub;
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(name = "password_hash", nullable = false, length = 255)
+    @Column(name = "password_hash", nullable = true, length = 255)
     private String passwordHash;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -56,6 +57,12 @@ public class User {
 
     public String getPasswordHash() {
         return passwordHash;
+    }
+    public String getGoogleSub() {
+        return googleSub;
+    }
+    public void setGoogleSub(String googleSub) {
+        this.googleSub = googleSub;
     }
 
     public void setPasswordHash(String passwordHash) {

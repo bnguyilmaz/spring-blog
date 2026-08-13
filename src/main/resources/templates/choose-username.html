@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Choose Username</title>
+
+</head>
+
+<body>
+
+<main class="username-page">
+    <section class="username-card">
+
+        <h1>Choose your username</h1>
+
+        <p>
+            Your Google account has been verified.
+            Choose the username that will appear on your profile.
+        </p>
+
+        <p th:if="${email != null}" class="email">
+            Signed in as
+            <strong th:text="${email}"></strong>
+        </p>
+
+        <form th:action="@{/choose-username}"
+              method="post">
+
+            <label for="username">Username</label>
+
+            <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    th:value="${suggestedUsername}"
+                    minlength="3"
+                    maxlength="50"
+                    pattern="[A-Za-z0-9._-]{3,50}"
+                    autocomplete="username"
+                    required>
+
+            <p class="username-hint">
+                Use 3–50 characters. Letters, numbers, dots,
+                underscores and hyphens are allowed.
+            </p>
+
+            <p th:if="${usernameError != null}"
+               th:text="${usernameError}"
+               class="error-message">
+            </p>
+
+            <p th:if="${registrationError != null}"
+               th:text="${registrationError}"
+               class="error-message">
+            </p>
+
+            <button type="submit">
+                Continue
+            </button>
+
+        </form>
+
+    </section>
+</main>
+
+</body>
+</html>
