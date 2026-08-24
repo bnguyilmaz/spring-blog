@@ -62,4 +62,61 @@ class UserRepositoryTest {
         assertThat(retrievedUser.getCreatedAt())
                 .isNotNull();
     }
+
+    @Test
+    void findByEmail_shouldReturnSavedUser() {
+        persistUser("bengu", "bengu@example.com", "google-123");
+
+        Optional<User> foundUser = userRepository.findByEmail("bengu@example.com");
+
+        assertThat(foundUser)
+                .isPresent()
+                .get()
+                .extracting(User::getUsername, User::getGoogleSub)
+                .containsExactly("bengu", "google-123");
+    }
+
+    @Test
+    void findByGoogleSub_shouldReturnSavedUser() {
+        persistUser("bengu", "bengu@example.com", "google-123");
+
+        Optional<User> foundUser = userRepository.findByGoogleSub("google-123");
+
+        assertThat(foundUser)
+                .isPresent()
+                .get()
+                .extracting(User::getUsername, User::getEmail)
+                .containsExactly("bengu", "bengu@example.com");
+    }
+
+    @Test
+    void existsByUsername_shouldReflectStoredUsername() {
+        persistUser("bengu", "bengu@example.com", "google-123");
+
+        assertThat(userRepository.existsByUsername("bengu")).isTrue();
+        assertThat(userRepository.existsByUsername("missing")).isFalse();
+    }
+
+    @Test
+    void existsByEmail_shouldReflectStoredEmail() {
+        persistUser("bengu", "bengu@example.com", "google-123");
+
+        assertThat(userRepository.existsByEmail("bengu@example.com")).isTrue();
+        assertThat(userRepository.existsByEmail("missing@example.com")).isFalse();
+    }
+
+    @Test
+    void existsByGoogleSub_shouldReflectLinkedGoogleAccount() {
+        persistUser("bengu", "bengu@example.com", "google-123");
+
+        assertThat(userRepository.existsByGoogleSub("google-123")).isTrue();
+        assertThat(userRepository.existsByGoogleSub("missing-google-sub")).isFalse();
+    }
+
+    private void persistUser(String username, String email, String googleSub) {
+        User user = new User(username, email, null);
+        user.setGoogleSub(googleSub);
+        userRepository.saveAndFlush(user);
+        entityManager.clear();
+    }
 }
