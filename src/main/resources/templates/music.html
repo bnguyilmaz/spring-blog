@@ -1,314 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Music</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 32px 20px 60px;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #0d0d0d, #161616);
-            color: #ffffff;
-        }
-
-        .container {
-            max-width: 1250px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            margin-bottom: 10px;
-            text-align: center;
-            font-size: 42px;
-        }
-
-        .subtitle {
-            margin-bottom: 45px;
-            text-align: center;
-            color: #b8b8b8;
-            font-size: 15px;
-        }
-
-        h2 {
-            margin-bottom: 24px;
-            text-align: center;
-            font-size: 30px;
-        }
-
-        .section {
-            margin-bottom: 60px;
-        }
-
-        /* ALBUMS */
-
-        .albums {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 22px;
-        }
-
-        .album-card {
-            padding: 14px;
-            text-align: center;
-            background-color: #1b1b1b;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .album-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.4);
-        }
-
-        .album-card img {
-            display: block;
-            width: 100%;
-            margin-bottom: 14px;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            background-color: #2a2a2a;
-            border-radius: 12px;
-        }
-
-        .album-name {
-            margin-bottom: 8px;
-            font-size: 20px;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .album-artist {
-            font-size: 16px;
-            color: #cfcfcf;
-        }
-
-        /* RECENT TRACK */
-
-        .recentTrack {
-            max-width: 780px;
-            margin: 0 auto;
-        }
-
-        .track-card {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            padding: 22px;
-            background-color: #1b1b1b;
-            border-radius: 20px;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-        }
-
-        .track-card img {
-            width: 160px;
-            height: 160px;
-            flex-shrink: 0;
-            object-fit: cover;
-            background-color: #2a2a2a;
-            border-radius: 16px;
-        }
-
-        .track-info {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .track-badge {
-            display: inline-block;
-            width: fit-content;
-            padding: 6px 10px;
-            color: #ffffff;
-            background-color: #1db954;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 0.4px;
-        }
-
-        .track-name {
-            font-size: 30px;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        .track-artist {
-            font-size: 18px;
-            color: #d1d1d1;
-        }
-
-        /* ARTISTS */
-
-        .artists {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0;
-        }
-
-        .artists li {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 12px;
-            padding: 16px 18px;
-            list-style: none;
-            background-color: #1b1b1b;
-            border: 1px solid #2a2a2a;
-            border-radius: 14px;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-        }
-
-        .artists li:hover {
-            background-color: #232323;
-            transform: translateY(-2px);
-        }
-
-        .artist-name {
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .artist-name:hover {
-            color: #1db954;
-            text-decoration: underline;
-        }
-
-        .artist-playcount {
-            padding: 6px 12px;
-            color: #d0d0d0;
-            background-color: #2b2b2b;
-            border-radius: 999px;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        /* MOBILE */
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 34px;
-            }
-
-            h2 {
-                font-size: 25px;
-            }
-
-            .track-card {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .track-card img {
-                width: 180px;
-                height: 180px;
-            }
-
-            .track-info {
-                align-items: center;
-            }
-
-            .artists li {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
-</head>
-
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Müziklerim')}"></head>
 <body>
-<div class="container">
-
-    <h1>My Music</h1>
-
-    <p class="subtitle">
-        A small corner of what I’ve been listening to lately
-    </p>
-
-    <!-- TOP ALBUMS -->
-    <section class="section">
-        <h2>Top Albums</h2>
-
-        <div class="albums">
-            <div class="album-card" th:each="album : ${albums}">
-                <img th:src="${album.displayImageUrl}"
-                     alt="Album cover"
-                     onerror="this.src='/images/default-album.jpg'">
-
-                <p class="album-name"
-                   th:text="${album.name}">
-                    Album name
-                </p>
-
-                <p class="album-artist"
-                   th:text="${album.artist.name}">
-                    Artist name
-                </p>
+<header th:replace="~{fragments/layout :: header('music')}"></header>
+<main id="main" class="page music-page">
+    <div class="music-heading">
+        <div><span class="eyebrow"><span class="status-dot"></span> KİŞİSEL MÜZİK GÜNLÜĞÜN</span><h1>Senin ritmin.</h1><p class="page-intro"><strong th:text="${lastFmUsername}">lastfm</strong><span class="muted"> / Last.fm seçkin</span></p></div>
+        <a class="button button-outline button-small" th:href="@{/profile/lastfm}">Last.fm hesabını değiştir ↗</a>
+    </div>
+    <div th:if="${musicError != null}" class="notice notice-error" role="alert">
+        <p th:text="${musicError}"></p><a class="text-link" th:href="@{/music}">Tekrar dene ↗</a>
+    </div>
+    <div th:unless="${musicError != null}">
+        <section class="music-section">
+            <div class="section-heading"><h2>Son dinlediklerin</h2><span class="section-note">SON 12 KAYIT</span></div>
+            <div th:if="${#lists.isEmpty(recentTrack)}" class="empty-state"><span aria-hidden="true">♫</span><h3>Henüz dinleme kaydı yok</h3><p>Last.fm’e kaydedilen şarkıların burada görünecek.</p></div>
+            <ol th:unless="${#lists.isEmpty(recentTrack)}" class="track-list">
+                <li class="track-row" th:each="track, stat : ${recentTrack}">
+                    <span class="track-index" th:text="${stat.count}">1</span>
+                    <img class="track-cover" th:src="${track.displayImageUrl ?: '/images/album-placeholder.svg'}" alt="" loading="lazy" onerror="this.onerror=null;this.src='/images/album-placeholder.svg'">
+                    <div class="track-copy"><h3 th:text="${track.name}">Şarkı</h3><p th:text="${track.artist != null ? track.artist.name : 'Bilinmeyen sanatçı'}">Sanatçı</p></div>
+                    <span class="track-symbol" aria-hidden="true">♫</span>
+                </li>
+            </ol>
+        </section>
+        <section class="music-section">
+            <div class="section-heading"><h2>Dönüp durduğun albümler</h2><span class="section-note">SON 30 GÜN</span></div>
+            <p th:if="${#lists.isEmpty(albums)}" class="empty-state">Bu dönem için henüz albüm kaydı yok.</p>
+            <div class="albums">
+                <article class="album-card" th:each="album : ${albums}">
+                    <div class="album-art"><img th:src="${album.displayImageUrl ?: '/images/album-placeholder.svg'}" alt="Albüm kapağı" loading="lazy" onerror="this.onerror=null;this.src='/images/album-placeholder.svg'"><span class="album-icon" aria-hidden="true">♫</span></div>
+                    <h3 th:text="${album.name}">Albüm</h3><p th:text="${album.artist != null ? album.artist.name : 'Bilinmeyen sanatçı'}">Sanatçı</p>
+                </article>
             </div>
-        </div>
-    </section>
-
-    <!-- RECENT TRACK -->
-    <section class="section">
-        <h2>Recent Track</h2>
-
-        <div class="recentTrack">
-            <div class="track-card" th:each="track : ${recentTrack}">
-                <img th:src="${track.displayImageUrl}"
-                     alt="Track cover"
-                     onerror="this.src='/images/default-track.jpg'">
-
-                <div class="track-info">
-                    <span class="track-badge">
-                        RECENTLY PLAYED
-                    </span>
-
-                    <p class="track-name"
-                       th:text="${track.name}">
-                        Track name
-                    </p>
-
-                    <p class="track-artist"
-                       th:text="${track.artist.name}">
-                        Artist name
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TOP ARTISTS -->
-    <section class="section">
-        <h2>Top Artists</h2>
-
-        <ul class="artists">
-            <li th:each="artist : ${artists}">
-                <a class="artist-name"
-                   th:href="@{/music/artist(name=${artist.name})}"
-                   th:text="${artist.name}">
-                    Artist name
-                </a>
-
-                <span class="artist-playcount"
-                      th:text="${artist.playcount + ' plays'}">
-                    0 plays
-                </span>
-            </li>
-        </ul>
-    </section>
-
-</div>
+        </section>
+        <section class="music-section">
+            <div class="section-heading"><h2>En çok dinlediğin sanatçılar</h2><span class="section-note">SON 30 GÜN</span></div>
+            <p th:if="${#lists.isEmpty(artists)}" class="empty-state">Bu dönem için henüz sanatçı kaydı yok.</p>
+            <ol class="artists">
+                <li th:each="artist, stat : ${artists}"><span class="artist-rank" th:text="${stat.count < 10 ? '0' + stat.count : stat.count}">01</span><a th:href="@{/music/artist(name=${artist.name})}" th:text="${artist.name}">Sanatçı</a><span class="playcount" th:text="${artist.playcount + ' dinleme'}">0 dinleme</span><span aria-hidden="true">↗</span></li>
+            </ol>
+        </section>
+    </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title th:text="${title + ' · Spring Blog'}">Spring Blog</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:fragment="header(active)" class="site-header">
+    <a class="skip-link" href="#main">İçeriğe geç</a>
+    <a class="brand" th:href="@{/}" aria-label="Spring Blog ana sayfa"><span class="brand-mark" aria-hidden="true">s.</span> spring blog</a>
+    <nav class="main-nav" aria-label="Ana menü">
+        <a th:href="@{/}" th:classappend="${active == 'home' ? 'active' : ''}" th:attr="aria-current=${active == 'home' ? 'page' : null}">Ana sayfa</a>
+        <a th:href="@{/music}" th:classappend="${active == 'music' ? 'active' : ''}" th:attr="aria-current=${active == 'music' ? 'page' : null}">Müziklerim</a>
+    </nav>
+    <a th:unless="${signedIn}" class="button button-small button-outline" th:href="@{/oauth2/authorization/google}">Giriş yap <span aria-hidden="true">↗</span></a>
+    <details th:if="${signedIn}" class="profile-menu">
+        <summary aria-label="Profil menüsünü aç" title="Profil menüsü">
+            <img th:if="${avatarUrl != null}" th:src="${avatarUrl}" alt="" referrerpolicy="no-referrer" class="avatar">
+            <svg th:unless="${avatarUrl != null}" class="avatar avatar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-3a7 7 0 0 1 14 0v3"/></svg>
+            <span class="profile-label">Profilim</span><span aria-hidden="true">⌄</span>
+        </summary>
+        <div class="profile-dropdown">
+            <a th:href="@{/oauth-user}">Profilim</a>
+            <a th:href="@{/music}">Müziklerim <span aria-hidden="true">↗</span></a>
+            <a th:href="@{/profile/lastfm}">Last.fm ayarları</a>
+            <form th:action="@{/logout}" method="post"><button type="submit">Çıkış yap</button></form>
+        </div>
+    </details>
+</header>
+<footer th:fragment="footer" class="site-footer"><span>spring blog <span class="muted">/ kişisel müzik günlüğün</span></span><span>Dinlediklerin seni anlatır.</span></footer>
+<form th:fragment="lastfmForm" th:action="@{/profile/lastfm}" method="post" class="stack-form">
+    <label for="lastFmUsername">Last.fm kullanıcı adın</label>
+    <input id="lastFmUsername" name="lastFmUsername" th:value="${lastFmUsername}" type="text" maxlength="50" pattern="[A-Za-z0-9._-]{1,50}" placeholder="ör. muziksever" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="lastfm-hint lastfm-error" th:attr="aria-invalid=${lastFmError != null}" required>
+    <p id="lastfm-hint" class="field-hint">Profil bağlantını değil, yalnızca kullanıcı adını yaz. Herkese açık dinleme geçmişin gösterilir.</p>
+    <p id="lastfm-error" th:if="${lastFmError != null}" th:text="${lastFmError}" class="notice notice-error" role="alert"></p>
+    <button class="button" type="submit">Kaydet ve müziklerimi gör <span aria-hidden="true">↗</span></button>
+</form>
+</body>
+</html>

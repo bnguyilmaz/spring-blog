@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="tr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Sanatçı Detayı</title>
-</head>
+<head th:replace="~{fragments/layout :: head('Sanatçı')}"></head>
 <body>
-
-<h1 th:text="${artistName}">Sanatçı adı</h1>
-
-<a th:href="@{/music}">Music sayfasına dön</a>
-
+<header th:replace="~{fragments/layout :: header('music')}"></header>
+<main id="main" class="page narrow-page">
+    <a class="back-link" th:href="@{/music}">← Müziklerime dön</a>
+    <section class="panel setup-panel">
+        <span class="eyebrow">SEÇKİNDEN BİR SANATÇI</span>
+        <h1 th:text="${artistName}">Sanatçı adı</h1>
+        <p class="muted">Bu sanatçıyı dinleme seçkinden keşfettin.</p>
+        <a class="button" th:href="@{https://www.last.fm/music/{artist}(artist=${artistName})}" target="_blank" rel="noopener noreferrer">Last.fm’de keşfet ↗</a>
+    </section>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

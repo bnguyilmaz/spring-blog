@@ -2,6 +2,7 @@ package com.bengu.springblog.controllers;
 
 import com.bengu.springblog.entities.User;
 import com.bengu.springblog.services.UserService;
+import com.bengu.springblog.services.LastFmProfileService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -29,9 +30,11 @@ public class AuthController {
             "pendingGoogleEmail";
 
     private final UserService userService;
+    private final LastFmProfileService lastFmProfiles;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, LastFmProfileService lastFmProfiles) {
         this.userService = userService;
+        this.lastFmProfiles = lastFmProfiles;
     }
 
     /*
@@ -92,6 +95,7 @@ public class AuthController {
                 oidcUser.getPicture()
         );
 
+        model.addAttribute("lastFmUsername", lastFmProfiles.usernameFor(googleSub).orElse(null));
         return "oauth-user";
     }
 

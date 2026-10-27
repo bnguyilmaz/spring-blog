@@ -33,6 +33,28 @@ class UserRepositoryTest {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private LastFmProfileRepository lastFmProfiles;
+
+    @Test
+    void lastFmAccountsStayAssociatedWithTheirGoogleUsers() {
+        User alice = new User("alice", "alice@example.com", null);
+        alice.setGoogleSub("alice-google");
+        User bob = new User("bob", "bob@example.com", null);
+        bob.setGoogleSub("bob-google");
+        userRepository.saveAllAndFlush(java.util.List.of(alice, bob));
+        lastFmProfiles.saveAllAndFlush(java.util.List.of(
+                new com.bengu.springblog.entities.LastFmProfile(alice, "alice-fm"),
+                new com.bengu.springblog.entities.LastFmProfile(bob, "bob-fm")));
+        entityManager.clear();
+
+        assertThat(lastFmProfiles.findByUser_GoogleSub("alice-google")).isPresent()
+                .get().extracting(com.bengu.springblog.entities.LastFmProfile::getLastFmUsername).isEqualTo("alice-fm");
+        assertThat(lastFmProfiles.findByUser_GoogleSub("bob-google")).isPresent()
+                .get().extracting(com.bengu.springblog.entities.LastFmProfile::getLastFmUsername).isEqualTo("bob-fm");
+        assertThat(lastFmProfiles.findByUser_GoogleSub("unknown-google")).isEmpty();
+    }
+
     @Test
     void findByUsername_shouldReturnSavedUser() {
         User user = new User(

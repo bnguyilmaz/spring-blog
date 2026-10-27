@@ -61,6 +61,9 @@ class AuthControllerTest {
     @MockitoBean
     private UserService userService;
 
+    @MockitoBean
+    private com.bengu.springblog.services.LastFmProfileService lastFmProfiles;
+
     @Test
     void oauthUser_shouldReturnUserView_whenGoogleUserExists() throws Exception {
         User existingUser = new User(USERNAME, EMAIL, null);

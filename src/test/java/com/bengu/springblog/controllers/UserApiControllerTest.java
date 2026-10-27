@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 "spring.security.oauth2.client.registration.google.client-secret=test-client-secret"
         }
 )
-@Import({SecurityAutoConfiguration.class, SecurityConfig.class})
+@Import({SecurityAutoConfiguration.class, SecurityConfig.class, WebSecurityTestConfig.class})
 class UserApiControllerTest {
 
     @Autowired

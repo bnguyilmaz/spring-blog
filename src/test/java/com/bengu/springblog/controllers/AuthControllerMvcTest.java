@@ -50,6 +50,9 @@ class AuthControllerMvcTest {
     @MockitoBean
     private UserService userService;
 
+    @MockitoBean
+    private com.bengu.springblog.services.LastFmProfileService lastFmProfiles;
+
     @AfterEach
     void clearSecurityContext() {
         SecurityContextHolder.clearContext();

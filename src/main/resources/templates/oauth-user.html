@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="tr" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Google Girişi</title>
-</head>
+<head th:replace="~{fragments/layout :: head('Profilim')}"></head>
 <body>
-
-<h1>Google girişi başarılı</h1>
-
-<img th:if="${picture != null}"
-     th:src="${picture}"
-     alt="Profil fotoğrafı"
-     width="120">
-
-<p>
-    Ad:
-    <span th:text="${name}"></span>
-</p>
-
-<p>
-    E-posta:
-    <span th:text="${email}"></span>
-</p>
-
-
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Çıkış yap</button>
-</form>
-
+<header th:replace="~{fragments/layout :: header('profile')}"></header>
+<main id="main" class="page profile-page">
+    <span class="eyebrow">SANA AİT BİR ALAN</span>
+    <h1>Hoş geldin, <span th:text="${user.username}">müziksever</span>.</h1>
+    <p class="page-intro">Profilin hazır. Şimdi hikâyene biraz müzik ekle.</p>
+    <div class="profile-grid">
+        <aside class="panel identity-panel">
+            <img th:if="${picture != null}" th:src="${picture}" class="profile-picture" alt="Profil fotoğrafın" referrerpolicy="no-referrer">
+            <span th:unless="${picture != null}" class="profile-picture profile-initial" aria-hidden="true" th:text="${#strings.substring(user.username ?: 'S', 0, 1)}">S</span>
+            <h2 th:text="${user.username}">Kullanıcı adı</h2>
+            <p class="muted" th:text="${name}">Ad Soyad</p>
+            <p class="field-hint profile-email" th:text="${email}">E-posta</p>
+            <span class="pill"><span class="status-dot"></span> Google ile giriş yapıldı</span>
+        </aside>
+        <section class="panel setup-panel" th:if="${lastFmUsername == null}">
+            <span class="eyebrow">SON BİR ADIM</span>
+            <h2>Müzik profilini tamamla.</h2>
+            <p class="muted">Last.fm kullanıcı adını ekle; dinlediklerin kendi sayfanda görünsün.</p>
+            <form th:replace="~{fragments/layout :: lastfmForm}"></form>
+        </section>
+        <section class="panel connected-panel" th:if="${lastFmUsername != null}">
+            <span class="pill"><span class="status-dot"></span> Last.fm eklendi</span>
+            <h2>Müziğin burada.</h2>
+            <p class="muted"><strong th:text="${lastFmUsername}">lastfm</strong> hesabındaki son dinlediklerin ve favorilerin seni bekliyor.</p>
+            <div class="actions"><a class="button" th:href="@{/music}">Müziklerimi gör <span aria-hidden="true">↗</span></a><a class="text-link" th:href="@{/profile/lastfm}">Hesabı değiştir</a></div>
+        </section>
+    </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

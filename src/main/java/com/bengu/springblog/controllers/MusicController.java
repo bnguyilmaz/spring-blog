@@ -1,43 +1,48 @@
 package com.bengu.springblog.controllers;
 
-import com.bengu.springblog.dto.AlbumResponse;
-import com.bengu.springblog.dto.ArtistResponse;
-import com.bengu.springblog.dto.TrackResponse;
+import com.bengu.springblog.exceptions.LastFmException;
+import com.bengu.springblog.services.LastFmProfileService;
 import com.bengu.springblog.services.LastFmService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/music")
 public class MusicController {
-    private final LastFmService lastFmService;
+    private final LastFmService lastFm;
+    private final LastFmProfileService profiles;
 
-    public MusicController(LastFmService lastFmService) {
-        this.lastFmService = lastFmService;
+    public MusicController(LastFmService lastFm, LastFmProfileService profiles) {
+        this.lastFm = lastFm;
+        this.profiles = profiles;
     }
 
     @GetMapping
-    public String music(Model model){
-        List<ArtistResponse> artists = lastFmService.getTopArtists();
-        model.addAttribute("artists",artists);
-        List<AlbumResponse> albums = lastFmService.getTopAlbums();
-        model.addAttribute("albums",albums);
-        List<TrackResponse> recentTrack = lastFmService.getRecentTracks();
-        model.addAttribute("recentTrack",recentTrack);
+    public String music(@AuthenticationPrincipal OidcUser principal, Model model) {
+        String username = profiles.usernameFor(principal.getSubject()).orElse(null);
+        if (username == null) return "redirect:/profile/lastfm";
+        model.addAttribute("lastFmUsername", username);
+        model.addAttribute("artists", List.of());
+        model.addAttribute("albums", List.of());
+        model.addAttribute("recentTrack", List.of());
+        try {
+            model.addAttribute("recentTrack", lastFm.getRecentTracks(username));
+            model.addAttribute("artists", lastFm.getTopArtists(username));
+            model.addAttribute("albums", lastFm.getTopAlbums(username));
+        } catch (LastFmException exception) {
+            model.addAttribute("musicError", exception.getMessage());
+        }
         return "music";
     }
+
     @GetMapping("/artist")
-    public String showArtistDetail(
-            @RequestParam String name,
-            Model model
-    ) {
+    public String showArtistDetail(@RequestParam String name, Model model) {
         model.addAttribute("artistName", name);
         return "artist-detail";
     }
-
 }

@@ -17,7 +17,8 @@ public class SecurityConfig {
                                 "/",
                                 "/css/**",
                                 "/home",
-                                "/music/**",
+                                "/images/**",
+                                "/error",
                                 "/oauth2/**",
                                 "/login/**"
                         ).permitAll()
