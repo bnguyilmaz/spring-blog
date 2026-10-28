@@ -33,6 +33,7 @@ class PageRenderingTest {
     @MockitoBean UserService users;
     @MockitoBean LastFmService lastFm;
     @MockitoBean LastFmProfileService profiles;
+    @MockitoBean LastFmAuthorizationService authorization;
 
     @Test
     void homeHasWorkingLoginLink() throws Exception {
@@ -46,7 +47,7 @@ class PageRenderingTest {
         user();
         preview("profile-setup", mvc.perform(get("/oauth-user").with(oidcLogin()))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("name=\"lastFmUsername\""))).andReturn());
+                .andExpect(content().string(containsString("/lastfm/connect"))).andReturn());
     }
 
     @Test
@@ -65,7 +66,7 @@ class PageRenderingTest {
         when(profiles.usernameFor("user")).thenReturn(Optional.of("alice-fm"));
         preview("settings", mvc.perform(get("/profile/lastfm").with(oidcLogin()))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("value=\"alice-fm\""))).andReturn());
+                .andExpect(content().string(containsString("alice-fm"))).andReturn());
     }
 
     @Test
@@ -79,6 +80,7 @@ class PageRenderingTest {
 
     @Test
     void populatedMusicRendersTracksAlbumsAndArtistsAndEscapesNames() throws Exception {
+        user();
         when(profiles.usernameFor("user")).thenReturn(Optional.of("alice-fm"));
         when(lastFm.getRecentTracks("alice-fm")).thenReturn(List.of(
                 new TrackResponse(new RecentTrackArtistResponse("Radiohead"), "Weird Fishes / Arpeggi", List.of(), null),

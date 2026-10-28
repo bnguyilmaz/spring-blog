@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Kullanıcı profili')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('users')}"></header>
+<main id="main" class="page narrow-page">
+    <a class="back-link" th:href="@{/users}">← Profilleri keşfet</a>
+    <section class="panel setup-panel">
+        <span class="eyebrow">MÜZİK PROFİLİ</span>
+        <h1 th:text="${profileUsername}">Kullanıcı adı</h1>
+        <div th:if="${lastFmUsername != null}">
+            <p class="muted">Doğrulanan Last.fm hesabı: <strong th:text="${lastFmUsername}"></strong></p>
+            <div class="actions"><a class="button" th:href="@{/users/{username}/music(username=${profileUsername})}">Müzik seçkisini gör ↗</a></div>
+        </div>
+        <p th:unless="${lastFmUsername != null}" class="muted profile-notice">Bu kullanıcı henüz Last.fm hesabını bağlamamış.</p>
+        <div th:if="${ownProfile}" class="actions"><a class="text-link" th:href="@{/profile/lastfm}">Last.fm bağlantımı yönet ↗</a></div>
+    </section>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

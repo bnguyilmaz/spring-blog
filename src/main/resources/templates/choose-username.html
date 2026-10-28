@@ -7,7 +7,7 @@
     <section class="panel setup-panel">
         <span class="eyebrow">01 / PROFİLİNİ OLUŞTUR</span>
         <h1>Sana nasıl<br>seslenelim?</h1>
-        <p class="muted">Google hesabın doğrulandı. Profilinde görünecek kullanıcı adını seç; ardından Last.fm hesabını ekleyebilirsin.</p>
+        <p class="muted">Google hesabın doğrulandı. Diğer kullanıcıların seni bulabileceği kullanıcı adını seç; ardından Last.fm hesabını bağlayabilirsin.</p>
         <p th:if="${email != null}" class="field-hint" th:text="${email}"></p>
         <form th:action="@{/choose-username}" method="post" class="stack-form">
             <label for="username">Kullanıcı adın</label>

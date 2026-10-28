@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Sayfa bulunamadı')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('users')}"></header>
+<main id="main" class="page narrow-page">
+    <section class="panel setup-panel"><span class="eyebrow">404</span><h1>Burada bir profil bulamadık.</h1><p class="muted">Kullanıcı adını kontrol edebilir veya ana sayfaya dönebilirsin.</p><div class="actions"><a class="button" th:href="@{/users}">Profil ara ↗</a><a class="text-link" th:href="@{/}">Ana sayfa</a></div></section>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

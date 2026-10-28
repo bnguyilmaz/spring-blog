@@ -19,16 +19,17 @@
         <section class="panel setup-panel" th:if="${lastFmUsername == null}">
             <span class="eyebrow">SON BİR ADIM</span>
             <h2>Müzik profilini tamamla.</h2>
-            <p class="muted">Last.fm kullanıcı adını ekle; dinlediklerin kendi sayfanda görünsün.</p>
+            <p class="muted">Last.fm’de hesabını onayla; dinlediklerin kendi profilinde görünsün.</p>
             <form th:replace="~{fragments/layout :: lastfmForm}"></form>
         </section>
         <section class="panel connected-panel" th:if="${lastFmUsername != null}">
-            <span class="pill"><span class="status-dot"></span> Last.fm eklendi</span>
+            <span class="pill"><span class="status-dot"></span> Last.fm doğrulandı</span>
             <h2>Müziğin burada.</h2>
             <p class="muted"><strong th:text="${lastFmUsername}">lastfm</strong> hesabındaki son dinlediklerin ve favorilerin seni bekliyor.</p>
             <div class="actions"><a class="button" th:href="@{/music}">Müziklerimi gör <span aria-hidden="true">↗</span></a><a class="text-link" th:href="@{/profile/lastfm}">Hesabı değiştir</a></div>
         </section>
     </div>
+    <div class="actions"><a class="text-link" th:href="@{/users/{username}(username=${user.username})}">Ziyaretçilere görünen profilim ↗</a><a class="text-link" th:href="@{/users}">Diğer profilleri keşfet ↗</a></div>
 </main>
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>

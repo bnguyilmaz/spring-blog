@@ -11,7 +11,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -27,21 +26,6 @@ public class LastFmService {
         factory.setConnectTimeout(5000);
         factory.setReadTimeout(5000);
         restTemplate = new RestTemplate(factory);
-    }
-
-    public String verifyUsername(String username) {
-        Map<?, ?> response = request("user.getinfo", username, Map.class);
-        if (response.get("error") instanceof Number error) {
-            if (error.intValue() == 6) {
-                throw new IllegalArgumentException("Last.fm kullanıcısı bulunamadı. Kullanıcı adını kontrol et.");
-            }
-            throw new LastFmException();
-        }
-        if (response.get("user") instanceof Map<?, ?> user
-                && user.get("name") instanceof String name && !name.isBlank()) {
-            return name;
-        }
-        throw new LastFmException();
     }
 
     public List<ArtistResponse> getTopArtists(String username) {

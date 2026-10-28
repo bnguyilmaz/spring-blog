@@ -58,22 +58,6 @@ class LastFmServiceTest {
     }
 
     @Test
-    void validatesAccountAndReturnsCanonicalUsername() {
-        server.expect(queryParam("method", "user.getinfo"))
-                .andRespond(withSuccess("{\"user\":{\"name\":\"Alice\"}}", MediaType.APPLICATION_JSON));
-        assertThat(service.verifyUsername("alice")).isEqualTo("Alice");
-        server.verify();
-    }
-
-    @Test
-    void unknownAccountHasUsefulValidationMessage() {
-        server.expect(queryParam("user", "missing"))
-                .andRespond(withSuccess("{\"error\":6,\"message\":\"User not found\"}", MediaType.APPLICATION_JSON));
-        assertThatThrownBy(() -> service.verifyUsername("missing"))
-                .isInstanceOf(IllegalArgumentException.class).hasMessageContaining("bulunamadı");
-    }
-
-    @Test
     void apiErrorsAreNotEmptyHistory() {
         server.expect(queryParam("user", "alice"))
                 .andRespond(withSuccess("{\"error\":29,\"message\":\"Rate limit exceeded\"}", MediaType.APPLICATION_JSON));

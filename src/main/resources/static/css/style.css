@@ -92,6 +92,8 @@ h3 { font-size: 1.05rem; font-weight: 600; }
 .connected-panel { padding-block: 42px; }
 .notice { padding: 20px 24px; border-radius: 10px; font-size: .9rem; }
 .notice-error { color: #ffe1c7; background: #442d21; border: 1px solid #80563c; }
+.notice-success { margin-top: 24px; color: var(--accent); background: #253321; border: 1px solid #49603a; }
+.profile-notice { margin-top: 24px; }
 .notice .text-link { display: inline-block; margin-top: 10px; }
 .music-heading { display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 24px; margin-bottom: 54px; }
 .music-heading h1 { font-size: clamp(3rem, 5.4vw, 4.4rem); }

@@ -4,7 +4,7 @@
 <body>
 <header th:replace="~{fragments/layout :: header('music')}"></header>
 <main id="main" class="page narrow-page">
-    <a class="back-link" th:href="@{/music}">← Müziklerime dön</a>
+    <a class="back-link" th:href="${musicPageUrl}">← Müzik seçkisine dön</a>
     <section class="panel setup-panel">
         <span class="eyebrow">SEÇKİNDEN BİR SANATÇI</span>
         <h1 th:text="${artistName}">Sanatçı adı</h1>

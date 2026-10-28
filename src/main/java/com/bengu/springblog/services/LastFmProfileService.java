@@ -1,40 +1,44 @@
 package com.bengu.springblog.services;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.bengu.springblog.entities.LastFmProfile;
 import com.bengu.springblog.entities.User;
 import com.bengu.springblog.repositories.LastFmProfileRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
 public class LastFmProfileService {
     private final LastFmProfileRepository profiles;
     private final UserService users;
-    private final LastFmService lastFm;
 
-    public LastFmProfileService(LastFmProfileRepository profiles, UserService users, LastFmService lastFm) {
+    public LastFmProfileService(LastFmProfileRepository profiles, UserService users) {
         this.profiles = profiles;
         this.users = users;
-        this.lastFm = lastFm;
     }
 
     @Transactional(readOnly = true)
     public Optional<String> usernameFor(String googleSub) {
-        return profiles.findByUser_GoogleSub(googleSub).map(LastFmProfile::getLastFmUsername);
+        return profiles.findByUser_GoogleSub(googleSub)
+                .filter(LastFmProfile::isVerified).map(LastFmProfile::getLastFmUsername);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<String> usernameForUser(String username) {
+        return profiles.findByUser_Username(username)
+                .filter(LastFmProfile::isVerified).map(LastFmProfile::getLastFmUsername);
     }
 
     @Transactional
-    public void connect(String googleSub, String username) {
-        if (username == null || !username.trim().matches("[A-Za-z0-9._-]{1,50}")) {
-            throw new IllegalArgumentException("Geçerli bir Last.fm kullanıcı adı gir (en fazla 50 karakter). Profil bağlantısı yerine kullanıcı adını yaz.");
+    public void connectVerified(String googleSub, String username) {
+        if (username == null || username.isBlank() || username.length() > 50) {
+            throw new IllegalArgumentException("Last.fm kullanıcı adı geçersiz.");
         }
         User user = users.findByGoogleSub(googleSub)
                 .orElseThrow(() -> new IllegalStateException("Önce profilini tamamlamalısın."));
-        String canonicalUsername = lastFm.verifyUsername(username.trim());
         LastFmProfile profile = profiles.findByUser_GoogleSub(googleSub)
-                .orElseGet(() -> new LastFmProfile(user, canonicalUsername));
-        profile.setLastFmUsername(canonicalUsername);
+                .orElseGet(() -> new LastFmProfile(user, username));
+        profile.verify(username);
         profiles.save(profile);
     }
 }

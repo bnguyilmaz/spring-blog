@@ -56,6 +56,32 @@ class UserRepositoryTest {
     }
 
     @Test
+    void verifiedLastFmConnectionCanBeReadByApplicationUsernameWithoutLoadingPrivateUserFields() {
+        User alice = new User("alice", "alice-private@example.com", null);
+        alice.setGoogleSub("alice-google");
+        userRepository.saveAndFlush(alice);
+        var profile = new com.bengu.springblog.entities.LastFmProfile(alice, "alice-fm");
+        profile.verify("alice-fm");
+        lastFmProfiles.saveAndFlush(profile);
+        entityManager.clear();
+
+        var found = lastFmProfiles.findByUser_Username("alice").orElseThrow();
+        assertThat(found.getLastFmUsername()).isEqualTo("alice-fm");
+        assertThat(found.isVerified()).isTrue();
+        assertThat(found.getVerifiedAt()).isNotNull();
+        assertThat(lastFmProfiles.findByUser_Username("unknown")).isEmpty();
+    }
+
+    @Test
+    void legacyManualConnectionRemainsUnverifiedAfterReload() {
+        User alice = new User("alice", "alice-private@example.com", null);
+        userRepository.saveAndFlush(alice);
+        lastFmProfiles.saveAndFlush(new com.bengu.springblog.entities.LastFmProfile(alice, "legacy-fm"));
+        entityManager.clear();
+        assertThat(lastFmProfiles.findByUser_Username("alice").orElseThrow().isVerified()).isFalse();
+    }
+
+    @Test
     void findByUsername_shouldReturnSavedUser() {
         User user = new User(
                 "bengu",

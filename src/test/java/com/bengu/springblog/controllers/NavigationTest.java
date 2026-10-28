@@ -51,7 +51,7 @@ class NavigationTest {
         mvc.perform(get("/oauth-user").with(oidcLogin().idToken(t -> t.subject("account-a"))))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("/profile/lastfm")))
-                .andExpect(content().string(containsString("lastFmUsername")))
+                .andExpect(content().string(containsString("/lastfm/connect")))
                 .andExpect(content().string(containsString("Ana sayfa")));
     }
 }

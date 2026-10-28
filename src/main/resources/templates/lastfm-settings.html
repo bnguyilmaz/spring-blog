@@ -8,7 +8,9 @@
     <section class="panel setup-panel">
         <span class="eyebrow">MÜZİK PROFİLİN</span>
         <h1>Dinlediklerini<br>buraya taşı.</h1>
-        <p class="muted">Last.fm kullanıcı adını kaydet; son dinlediklerin, favori sanatçıların ve albümlerin sana özel bir sayfada buluşsun.</p>
+        <p class="muted">Last.fm hesabını doğrulayarak bağla; son dinlediklerin, favori sanatçıların ve albümlerin profilinde buluşsun.</p>
+        <p th:if="${lastFmUsername != null}" class="notice notice-success">Bağlı hesap: <strong th:text="${lastFmUsername}"></strong>. Yeni hesabı onaylayana kadar mevcut bağlantın korunur.</p>
+        <p th:unless="${lastFmUsername != null}" class="field-hint">Daha önce kullanıcı adını elle eklediysen hesabını bir kez Last.fm üzerinden doğrulaman gerekiyor.</p>
         <form th:replace="~{fragments/layout :: lastfmForm}"></form>
         <p class="field-hint">Last.fm hesabın yok mu? <a href="https://www.last.fm/join" target="_blank" rel="noopener noreferrer">Hesap oluştur ↗</a></p>
     </section>

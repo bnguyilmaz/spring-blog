@@ -14,6 +14,7 @@
     <nav class="main-nav" aria-label="Ana menü">
         <a th:href="@{/}" th:classappend="${active == 'home' ? 'active' : ''}" th:attr="aria-current=${active == 'home' ? 'page' : null}">Ana sayfa</a>
         <a th:href="@{/music}" th:classappend="${active == 'music' ? 'active' : ''}" th:attr="aria-current=${active == 'music' ? 'page' : null}">Müziklerim</a>
+        <a th:href="@{/users}" th:classappend="${active == 'users' ? 'active' : ''}" th:attr="aria-current=${active == 'users' ? 'page' : null}">Keşfet</a>
     </nav>
     <a th:unless="${signedIn}" class="button button-small button-outline" th:href="@{/oauth2/authorization/google}">Giriş yap <span aria-hidden="true">↗</span></a>
     <details th:if="${signedIn}" class="profile-menu">
@@ -31,12 +32,10 @@
     </details>
 </header>
 <footer th:fragment="footer" class="site-footer"><span>spring blog <span class="muted">/ kişisel müzik günlüğün</span></span><span>Dinlediklerin seni anlatır.</span></footer>
-<form th:fragment="lastfmForm" th:action="@{/profile/lastfm}" method="post" class="stack-form">
-    <label for="lastFmUsername">Last.fm kullanıcı adın</label>
-    <input id="lastFmUsername" name="lastFmUsername" th:value="${lastFmUsername}" type="text" maxlength="50" pattern="[A-Za-z0-9._-]{1,50}" placeholder="ör. muziksever" autocomplete="off" autocapitalize="none" spellcheck="false" aria-describedby="lastfm-hint lastfm-error" th:attr="aria-invalid=${lastFmError != null}" required>
-    <p id="lastfm-hint" class="field-hint">Profil bağlantını değil, yalnızca kullanıcı adını yaz. Herkese açık dinleme geçmişin gösterilir.</p>
+<form th:fragment="lastfmForm" th:action="@{/lastfm/connect}" method="post" class="stack-form">
+    <p class="field-hint">Last.fm’de hesabına giriş yapıp bağlantıyı onayla. Doğrulanan kullanıcı adın otomatik eklenecek. Dinleme seçkin giriş yapan diğer kullanıcılar tarafından görülebilir.</p>
     <p id="lastfm-error" th:if="${lastFmError != null}" th:text="${lastFmError}" class="notice notice-error" role="alert"></p>
-    <button class="button" type="submit">Kaydet ve müziklerimi gör <span aria-hidden="true">↗</span></button>
+    <button class="button" type="submit"><span th:text="${lastFmUsername != null ? 'Last.fm hesabını değiştir' : 'Last.fm hesabını bağla'}">Last.fm hesabını bağla</span><span aria-hidden="true">↗</span></button>
 </form>
 </body>
 </html>

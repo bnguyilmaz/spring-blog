@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface LastFmProfileRepository extends JpaRepository<LastFmProfile, Long> {
     Optional<LastFmProfile> findByUser_GoogleSub(String googleSub);
+    Optional<LastFmProfile> findByUser_Username(String username);
 }

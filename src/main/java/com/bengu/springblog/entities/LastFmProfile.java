@@ -19,6 +19,9 @@ public class LastFmProfile {
     @Column(name = "lastfm_username", nullable = false, length = 50)
     private String lastFmUsername;
 
+    @Column(name = "verified_at")
+    private LocalDateTime verifiedAt;
+
     @Column(name = "connected_at", nullable = false, updatable = false)
     private LocalDateTime connectedAt = LocalDateTime.now();
 
@@ -44,6 +47,16 @@ public class LastFmProfile {
 
     public void setLastFmUsername(String lastFmUsername) {
         this.lastFmUsername = lastFmUsername;
+        this.verifiedAt = null;
+    }
+
+    public boolean isVerified() { return verifiedAt != null; }
+
+    public LocalDateTime getVerifiedAt() { return verifiedAt; }
+
+    public void verify(String username) {
+        this.lastFmUsername = username;
+        this.verifiedAt = LocalDateTime.now(java.time.ZoneOffset.UTC);
     }
 
     public LocalDateTime getConnectedAt() {

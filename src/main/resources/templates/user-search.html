@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Profilleri keşfet')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header('users')}"></header>
+<main id="main" class="page narrow-page">
+    <section class="panel setup-panel">
+        <span class="eyebrow">BİRLİKTE KEŞFET</span>
+        <h1>Başka bir ritim.</h1>
+        <p class="muted">Bir kullanıcının uygulamadaki kullanıcı adını yaz; profilini ve Last.fm müzik seçkisini ziyaret et.</p>
+        <form th:action="@{/users}" method="get" class="stack-form">
+            <label for="username">Kullanıcı adı</label>
+            <input id="username" name="username" type="text" maxlength="50" pattern="[A-Za-z0-9._-]{3,50}" placeholder="ör. ayse" autocomplete="off" autocapitalize="none" spellcheck="false" required>
+            <button class="button" type="submit">Profili ziyaret et ↗</button>
+        </form>
+    </section>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
